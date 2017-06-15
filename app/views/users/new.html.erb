@@ -1,5 +1,5 @@
 <h3>Register</h3>
-<form action='/users' method='post'>
+<!-- <form action='/users' method='post'>
   <input type='hidden' name='authenticity_token' value="<%=form_authenticity_token%>">
   <div>
     <label>Name</label>
@@ -17,8 +17,28 @@
     <label>Password Confirmation</label>
     <input type='password' name='user[password_confirmation]'>
   </div>
+
   <input type='submit' value='Register'>
-</form>
+</form> -->
+
+
+<%= form_tag users_path do %>
+  <label>Name:</label><br>
+  <%= text_field_tag :'user[name]' %><br>
+
+  <label>Email:</label><br>
+  <%= text_field_tag :'user[email]' %><br>
+
+  <label>Password:</label><br>
+  <%= password_field_tag :'user[password]' %><br>
+
+  <label>Password Confirmation:</label><br>
+  <%= password_field_tag :'user[password_confirmation]' %><br>
+
+  <%= submit_tag "Register" %>
+<% end %>
+
+
 
   <% if flash[:errors]%>
     <%flash[:errors].each do |error|%>
@@ -26,7 +46,7 @@
   <%end%>
    <%end%>
 
-   <h3>Login</h3>
+   <!-- <h3>Login</h3>
    <form action='/sessions' method='post'>
      <input type='hidden' name='authenticity_token' value="<%=form_authenticity_token%>">
      <div>
@@ -38,5 +58,16 @@
        <input type='password' name='user[password]'>
      </div>
      <input type='submit' value='Login'>
-   </form>
-   <p class='errors'><%= flash[:login_error]%>
+   </form> -->
+
+
+    <h3>Login</h3>
+     <%= form_tag sessions_path do %>
+       <label>Email:</label><br>
+       <%= text_field_tag :'user[email]' %><br>
+       <label>Password:</label><br>
+       <%= password_field_tag :'user[password]' %><br>
+       <%= submit_tag "Login" %>
+     <% end %>
+
+        <p class='errors'><%= flash[:login_error]%>

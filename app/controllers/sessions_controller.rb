@@ -4,11 +4,16 @@ class SessionsController < ApplicationController
     user=User.find_by(email: login_params[:email])
     if user && user.authenticate(login_params[:password])
       session[:user_id]=user.id
-      redirect_to '/success'
+      redirect_to '/secrets'
     else
       flash[:login_error]='Invalid credentials'
       redirect_to '/'
     end
+  end
+
+  def destroy
+    reset_session
+    redirect_to '/'
   end
 
 
