@@ -7,11 +7,12 @@ class SecretsController < ApplicationController
   end
 
   def create
-    @secret=Secret.create(secret_params.merge(user: current_user))
-    if @secret.valid?
+    user=User.find(session[:user_id])
+    secret = Secret.create(secret_params.merge(user: user))
+    if secret.valid?
       redirect_to '/secrets'
     else
-      session[:secret_errors]=@secret.errors.full_messages
+      session[:secret_errors]=secret.errors.full_messages
       redirect_to "users/#{session[:user_id]}"
     end
   end

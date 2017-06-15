@@ -1,2 +1,48 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<div>
+	<div class="header">
+		<h4 class="inline_block"><%= @user.name %></h4>
+		<a class="float_right" data-method="delete" href="/sessions/<%= session[:user_id] %>">Logout</a>
+	</div>
+	<div>
+		<form action="/secrets" method="post">
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+			<div>
+				<label>New Secret</label>
+			</div>
+			<div>
+				<textarea name="secret[content]"></textarea>
+			</div>
+			<div>
+				<input type="submit" value="Create Secret">
+			</div>
+		</form>
+		<div>
+			<% if flash[:secret_errors] %>
+				<% flash[:secret_errors].each do |error| %>
+					<p class="error"><%= error %></p>
+				<% end %>
+			<% end %>
+		</div>
+	</div>
+	<div class="half_size inline_block">
+		<h4>Secrets Liked</h4>
+		<% @secrets_liked.each do |secret| %>
+			<p> <%= secret.content %></p>
+			<p class="inline_block"><%=secret.likes.length %> Like<%= 's' if secret.likes.length != 1 %></p>
+			<% if @secrets_liked_ids.include? secret.id %>
+				<form class="inline_block" action="/likes/<%= secret.id %>" method="post">
+					<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+					<input type="hidden" name="_method" value="delete">
+					<input type="submit" value="Unlike">
+				</form>
+			<% else %>
+				<form class="inline_block" action="/likes/<%= secret.id %>" method="post">
+					<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+					<input type="submit" value="Like">
+				</form>
+			<% end %>
+
+
+		<% end %>
+	</div>
+</div>

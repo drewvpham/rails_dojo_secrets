@@ -13,17 +13,20 @@ class UsersController < ApplicationController
       redirect_to '/secrets'
 
     else
-      flash[:registration_errors] = user.errors.full_messages
+      flash[:errors] = user.errors.full_messages
       redirect_to :root
     end
 
   end
 
   def show
-    @user=User.find
+    @user=User.find(params[:id])
+    @secrets_liked = @user.secrets_liked.includes(:likes)
+    @secrets_liked_ids=@user.secrets_liked_ids
   end
 
   def success
+    @current_user = current_user
 
   end
 
